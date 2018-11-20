@@ -40,4 +40,8 @@ router.delete("/logout", (req, res, next) => {
   res.sendStatus(204)
 })
 
+router.get("/me", (req, res, next) => {
+  res.json(req.user)
+})
+
 module.exports = router
