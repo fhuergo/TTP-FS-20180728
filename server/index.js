@@ -9,6 +9,26 @@ app.use(express.static(path.join(__dirname, "..", "public"))) // can access css,
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+const session = require("express-session")
+
+// we will need our sequelize instance from somewhere
+const db = require("./db")
+
+// configure and create our database store
+const SequelizeStore = require("connect-session-sequelize")(session.Store)
+const dbStore = new SequelizeStore({ db: db })
+
+// sync so that our session table gets created
+dbStore.sync()
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "a wildly insecure secret",
+    resave: false,
+    saveUninitialized: false
+  })
+)
+
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "..", "public", "index.html")) // index.html stays so bundle.js can be accessed!
 })
