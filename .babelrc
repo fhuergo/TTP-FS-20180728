@@ -1,4 +1,4 @@
 {
   "presets": ["env", "es2015", "react"],
-  "plugins": ["transform-es2015-modules-amd"]
+  "plugins": ["@babel/plugin-transform-regenerator"]
 }

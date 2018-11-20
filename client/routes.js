@@ -54,7 +54,8 @@ const mapState = state => {
 export default withRouter(
   connect(
     mapState,
-    { me, fetchProducts, fetchCart }
+    // { me, fetchProducts, fetchCart }
+    { me }
   )(Routes)
 )
 
