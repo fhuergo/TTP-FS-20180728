@@ -8,4 +8,5 @@
 // export { default as ProductPage } from "./ProductPage"
 
 export { Login, Signup } from "./auth-form"
+export { default as UserHome } from "./UserHome"
 //export { default as Cart } from "./Cart"

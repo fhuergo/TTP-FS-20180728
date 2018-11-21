@@ -4,7 +4,7 @@ const Sequelize = require("sequelize")
 
 const db = require("./db")
 
-const { STRING } = Sequelize
+const { STRING, INTEGER } = Sequelize
 
 const User = db.define(
   "user",
@@ -24,6 +24,12 @@ const User = db.define(
     },
     salt: {
       type: STRING
+    },
+    cash: {
+      type: INTEGER,
+      defaultValue: 5000,
+      validate: { min: 0, max: Infinity },
+      allowNull: false
     }
   },
   {
