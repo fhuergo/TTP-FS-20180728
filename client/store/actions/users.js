@@ -20,7 +20,8 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, { email, password })
+    res = await axios.post(`/auth/${method}`, { email, password }) // originally res = await axios.post(`/auth/login/${method}`, { email, password })
+    // OKAY!! For login this is fine, but I wonder if it needs to be `auth/login/${method}` at other times. If that turns out ot be the case, we can do if method === login, run auth/method.
   } catch (authError) {
     return dispatch(getUser({ error: authError }))
   }

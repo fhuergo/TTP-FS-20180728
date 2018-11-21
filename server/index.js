@@ -45,6 +45,7 @@ app.get("*", function(req, res) {
 })
 
 app.use("/api", require("./api"))
+app.use("/auth", require("./auth"))
 
 app.use(function(err, req, res, next) {
   console.error(err)

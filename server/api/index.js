@@ -1,5 +1,7 @@
 const router = require("express").Router()
 
+router.use(require("./login"))
+
 router.get("/", (req, res, next) => {
   res.send("hooray")
 })
