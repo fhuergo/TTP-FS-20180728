@@ -1,6 +1,6 @@
 import axios from "axios"
 import "babel-polyfill" // needed or else runtime error with async function "me"
-//import history from "../../history"
+import history from "../../history"
 
 export const GET_USER = "GET_USER"
 export const REMOVE_USER = "REMOVE_USER"
