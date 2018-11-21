@@ -9,4 +9,6 @@
 
 export { Login, Signup } from "./auth-form"
 export { default as UserHome } from "./UserHome"
+export { default as Portfolio } from "./Portfolio"
+export { default as BuyStocks } from "./BuyStocks"
 //export { default as Cart } from "./Cart"

@@ -9,7 +9,8 @@ export default class UserHome extends Component {
   render() {
     return (
       <div>
-        Welcome, (name)
+        Welcome,{" "}
+        {this.props.name ? this.props.name : "(this.props.name is undefined)"}
         <Portfolio />
         <BuyStocks />
       </div>
