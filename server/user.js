@@ -4,19 +4,25 @@ const Sequelize = require("sequelize")
 
 const db = require("./db")
 
+const { STRING } = Sequelize
+
 const User = db.define(
   "user",
   {
+    name: {
+      type: STRING,
+      allowNull: false
+    },
     email: {
-      type: Sequelize.STRING,
+      type: STRING,
       unique: true,
       allowNull: false
     },
     password: {
-      type: Sequelize.STRING
+      type: STRING
     },
     salt: {
-      type: Sequelize.STRING
+      type: STRING
     }
   },
   {
