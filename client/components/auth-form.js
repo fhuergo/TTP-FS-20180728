@@ -8,15 +8,21 @@ import { auth } from "../store/actions/users"
  */
 const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props
+  const nameInput =
+    displayName === "Sign Up" ? (
+      <div>
+        <label htmlFor="usersName">
+          <small>Name</small>
+        </label>
+        <input name="usersName" type="text" />
+      </div>
+    ) : (
+      ""
+    )
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="usersName">
-            <small>Name</small>
-          </label>
-          <input name="usersName" type="text" />
-        </div>
+        {nameInput}
         <div>
           <label htmlFor="email">
             <small>Email</small>
@@ -59,7 +65,7 @@ const mapDispatch = dispatch => {
     handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
-      const usersName = evt.target.usersName.value
+      const usersName = evt.target.usersName ? evt.target.usersName.value : ""
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(usersName, email, password, formName))
