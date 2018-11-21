@@ -19,7 +19,8 @@ const User = db.define(
       allowNull: false
     },
     password: {
-      type: STRING
+      type: STRING,
+      allowNull: false
     },
     salt: {
       type: STRING
@@ -34,20 +35,20 @@ const User = db.define(
 )
 
 User.prototype.correctPassword = function(candidatePassword) {
-  return (
-    this.Model.encryptPassword(candidatePassword, this.salt) === this.password
-  )
+  // used to be return this.Model.encryptPassword ... but I changed it to return User.encryptpassword ... and it seems to be working now
+  return User.encryptPassword(candidatePassword, this.salt) === this.password
 }
 
 User.prototype.sanitize = function() {
   return _.omit(this.toJSON(), ["password", "salt"])
 }
 
-User.generateSalt = function() {
+User.generateSalt = () => {
   return crypto.randomBytes(16).toString("base64")
 }
 
-User.encryptPassword = function(plainText, salt) {
+User.encryptPassword = (plainText, salt) => {
+  console.log("User.encryptPassword is ok")
   const hash = crypto.createHash("sha1")
   hash.update(plainText)
   hash.update(salt)
@@ -59,7 +60,9 @@ function setSaltAndPassword(user) {
   // and do it again whenever they change it
   if (user.changed("password")) {
     user.salt = User.generateSalt()
+    console.log("if no part 2 there was problem")
     user.password = User.encryptPassword(user.password, user.salt)
+    console.log("part 2!")
   }
 }
 
