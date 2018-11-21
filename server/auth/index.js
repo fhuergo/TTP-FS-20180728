@@ -22,8 +22,6 @@ router.post("/login", async (req, res, next) => {
 })
 
 router.post("/signup", async (req, res, next) => {
-  console.log("/auth/index.js/signup hit")
-  console.log("req.body is", req.body)
   try {
     const user = await User.create(req.body)
     req.login(user, err => (err ? next(err) : res.json(user)))

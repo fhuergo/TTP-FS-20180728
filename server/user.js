@@ -48,7 +48,6 @@ User.generateSalt = () => {
 }
 
 User.encryptPassword = (plainText, salt) => {
-  console.log("User.encryptPassword is ok")
   const hash = crypto.createHash("sha1")
   hash.update(plainText)
   hash.update(salt)
@@ -60,9 +59,7 @@ function setSaltAndPassword(user) {
   // and do it again whenever they change it
   if (user.changed("password")) {
     user.salt = User.generateSalt()
-    console.log("if no part 2 there was problem")
     user.password = User.encryptPassword(user.password, user.salt)
-    console.log("part 2!")
   }
 }
 
