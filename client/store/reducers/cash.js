@@ -11,7 +11,7 @@ export const getCash = userId => async dispatch => {
   try {
     let hi = {}
     hi.data = "hello"
-    const { data } = hi //await axios.get(`/api/cash/${userId}`)
+    const { data } = hi //await axios.get(`/api/cash/${userId}`) CASH UPDATE ON USER
     dispatch(retrieveCash(data))
   } catch (err) {
     console.error(err)

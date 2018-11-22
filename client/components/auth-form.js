@@ -7,7 +7,7 @@ import { auth } from "../store/actions/users"
  * COMPONENT
  */
 const AuthForm = props => {
-  const { name, displayName, handleSubmit, error } = props
+  const { name, displayName, handleSubmit, error, history } = props
   const nameInput =
     displayName === "Sign Up" ? (
       <div>
@@ -22,7 +22,7 @@ const AuthForm = props => {
   return (
     <div>
       <form
-        onSubmit={(evt, propsHistory) => handleSubmit(evt, props.history)}
+        onSubmit={(evt, propsHistory) => handleSubmit(evt, history)}
         name={name}
       >
         {nameInput}
