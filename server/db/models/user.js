@@ -2,7 +2,7 @@ const crypto = require("crypto")
 const _ = require("lodash")
 const Sequelize = require("sequelize")
 
-const db = require(".")
+const { db } = require("../index")
 
 const { STRING, INTEGER } = Sequelize
 
@@ -40,6 +40,8 @@ const User = db.define(
   }
 )
 
+module.exports = User
+
 User.prototype.correctPassword = function(candidatePassword) {
   // used to be return this.Model.encryptPassword ... but I changed it to return User.encryptpassword ... and it seems to be working now
   return User.encryptPassword(candidatePassword, this.salt) === this.password
@@ -68,5 +70,3 @@ function setSaltAndPassword(user) {
     user.password = User.encryptPassword(user.password, user.salt)
   }
 }
-
-module.exports = User
