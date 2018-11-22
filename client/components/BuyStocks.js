@@ -26,29 +26,23 @@ class BuyStocks extends Component {
   }
   async handleBuy(event) {
     event.preventDefault()
-    let invalidStock = true
     let latestPrice
     let stock
     try {
       stock = await axios.get(
         `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
       )
-      if (!stock) {
-        console.log("hit if statement")
-        invalidStock = false
+      if (stock) {
         latestPrice = stock.data.quote.latestPrice
       }
     } catch (err) {
       alert("That ticker doesn't exist.")
       return
     }
-    console.log("stock", stock)
-    console.log("invalidStock", invalidStock)
-    console.log("latestPrice", latestPrice)
     const notEnoughMoney =
       this.props.cash - latestPrice * this.state.quantityBeingTypedIn < 0
-    const fewerThanOne = this.state.quantityBeingTypedIn <= 0
-    if (fewerThanOne) {
+    const fewerThanOneRequested = this.state.quantityBeingTypedIn <= 0
+    if (fewerThanOneRequested) {
       this.setState({ currentError: "You need to buy at least one." })
     } else if (notEnoughMoney) {
       this.setState({
@@ -56,8 +50,8 @@ class BuyStocks extends Component {
       })
     } else {
       // update user's cash amount
-      // if (stock already exists ) put request
-      // else if (stock exists) post request
+      // if (stock already exists in portfolio) put request to PortfolioItem
+      // else if (stock exists) post request a PortfolioItem
       this.setState({ currentError: "Purchased!" })
     }
   }
