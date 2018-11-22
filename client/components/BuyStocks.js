@@ -24,21 +24,22 @@ class BuyStocks extends Component {
   }
   handleBuy() {
     const invalidStock = false
-    const notEnoughMoney = currentMoney - toBuy <= 0
+    const notEnoughMoney = false //= currentMoney - toBuy <= 0
     if (invalidStock) {
       this.setState({ currentError: "That ticker doesn't exist!" })
     } else if (notEnoughMoney) {
       this.setState({
-        currentError:
-          "Account does not have adequate funds to make this purchase."
+        currentError: "Funds not adequate to make this purchase."
       })
     } else {
-      // proceed
+      this.setState({ currentError: "" })
+      // create transaction (BUY AAPL -- 6 Shares at $300)
+      // add amount to account (or sell -- in the future)
     }
   }
   render() {
     return (
-      <form onSubmit={handleBuy}>
+      <form onSubmit={this.handleBuy}>
         <div>
           <label>Cash:</label> {this.props.cash}
         </div>
@@ -48,7 +49,7 @@ class BuyStocks extends Component {
             type="text"
             value={this.state.stockBeingTypedIn}
             onChange={this.handleChange}
-            maxlength="4"
+            maxLength="4"
             required
           />
         </div>
