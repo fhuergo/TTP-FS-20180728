@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { getCash } from "../store/reducers/cash"
+//import { getCash } from "../store/reducers/cash"
 import axios from "axios"
 
 class BuyStocks extends Component {
@@ -11,12 +11,11 @@ class BuyStocks extends Component {
       quantityBeingTypedIn: 0,
       currentError: ""
     }
-    this.userId = props.userId
     this.handleChange = this.handleChange.bind(this)
     this.handleBuy = this.handleBuy.bind(this)
   }
   componentDidMount() {
-    this.props.loadCash(this.userId)
+    //this.props.loadCash(this.userId)
   }
   handleChange(event) {
     this.setState({
@@ -95,11 +94,4 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-const mapDispatchToProps = dispatch => ({
-  loadCash: userId => dispatch(getCash(userId))
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BuyStocks)
+export default connect(mapStateToProps)(BuyStocks)
