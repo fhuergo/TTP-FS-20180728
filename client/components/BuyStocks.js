@@ -22,26 +22,31 @@ class BuyStocks extends Component {
       [event.target.name]: event.target.value
     })
   }
-  handleBuy() {
+  handleBuy(event) {
+    // event may cause bugs down the line
+    event.preventDefault()
     const invalidStock = false
-    const notEnoughMoney = false //= currentMoney - toBuy <= 0
+    const notEnoughMoney = false //= this.state.cash - toBuy <= 0
+    const triedToPurchaseFewerThanOne = this.state.quantityBeingTypedIn <= 0
     if (invalidStock) {
       this.setState({ currentError: "That ticker doesn't exist!" })
+    } else if (triedToPurchaseFewerThanOne) {
+      this.setState({ currentError: "You need to buy at least one." })
     } else if (notEnoughMoney) {
       this.setState({
         currentError: "Funds not adequate to make this purchase."
       })
     } else {
-      this.setState({ currentError: "" })
       // create transaction (BUY AAPL -- 6 Shares at $300)
       // add amount to account (or sell -- in the future)
+      if (this.state.currentError) this.setState({ currentError: "" }) // to re-render, remove if statement
     }
   }
   render() {
     return (
       <form onSubmit={this.handleBuy}>
         <div>
-          <label>Cash:</label> {this.props.cash}
+          <label>Balance:</label> {this.props.cash}
         </div>
         <div>
           <label>Stock:</label>

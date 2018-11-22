@@ -1,8 +1,10 @@
 import React, { Component } from "react"
 import Portfolio from "./Portfolio"
 import BuyStocks from "./BuyStocks"
+import { connect } from "react-redux"
+import { userInfo } from "os"
 
-export default class UserHome extends Component {
+class UserHome extends Component {
   constructor(props) {
     super(props)
   }
@@ -17,3 +19,9 @@ export default class UserHome extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  name: state.user.name
+})
+
+export default connect(mapStateToProps)(UserHome)
