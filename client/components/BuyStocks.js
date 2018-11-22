@@ -1,6 +1,8 @@
 import React, { Component } from "react"
+import { IEXClient } from "iex-api"
 import { connect } from "react-redux"
 import { getCash } from "../store/reducers/cash"
+import axios from "axios"
 
 class BuyStocks extends Component {
   constructor(props) {
@@ -17,38 +19,62 @@ class BuyStocks extends Component {
   componentDidMount() {
     this.props.loadCash(this.userId)
   }
-  handleChange() {
+  handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
   }
-  handleBuy() {
-    const invalidStock = false
-    const notEnoughMoney = currentMoney - toBuy <= 0
-    if (invalidStock) {
-      this.setState({ currentError: "That ticker doesn't exist!" })
+  async handleBuy(event) {
+    event.preventDefault()
+    let invalidStock = true
+    let latestPrice
+    let stock
+    try {
+      stock = await axios.get(
+        `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
+      )
+      if (!stock) {
+        console.log("hit if statement")
+        invalidStock = false
+        latestPrice = stock.data.quote.latestPrice
+      }
+    } catch (err) {
+      alert("That ticker doesn't exist.")
+      return
+    }
+    console.log("stock", stock)
+    console.log("invalidStock", invalidStock)
+    console.log("latestPrice", latestPrice)
+    const notEnoughMoney =
+      this.props.cash - latestPrice * this.state.quantityBeingTypedIn < 0
+    const fewerThanOne = this.state.quantityBeingTypedIn <= 0
+    if (fewerThanOne) {
+      this.setState({ currentError: "You need to buy at least one." })
     } else if (notEnoughMoney) {
       this.setState({
-        currentError:
-          "Account does not have adequate funds to make this purchase."
+        currentError: "Funds not adequate to make this purchase."
       })
     } else {
-      // proceed
+      // update user's cash amount
+      // if (stock already exists ) put request
+      // else if (stock exists) post request
+      this.setState({ currentError: "Purchased!" })
     }
   }
   render() {
     return (
-      <form onSubmit={handleBuy}>
+      <form onSubmit={this.handleBuy}>
         <div>
-          <label>Cash:</label> {this.props.cash}
+          <label>Balance:</label> {this.props.cash}
         </div>
         <div>
           <label>Stock:</label>
           <input
             type="text"
+            name="stockBeingTypedIn"
             value={this.state.stockBeingTypedIn}
-            onChange={this.handleChange}
-            maxlength="4"
+            onChange={evt => this.handleChange(evt)}
+            maxLength="4"
             required
           />
         </div>
@@ -56,8 +82,9 @@ class BuyStocks extends Component {
           <label>Quantity:</label>
           <input
             type="number"
+            name="quantityBeingTypedIn"
             value={this.state.quantityBeingTypedIn}
-            onChange={this.handleChange}
+            onChange={evt => this.handleChange(evt)}
             required
           />
         </div>
@@ -71,7 +98,8 @@ class BuyStocks extends Component {
 }
 
 const mapStateToProps = state => ({
-  cash: state.cash
+  cash: state.user.cash,
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => ({

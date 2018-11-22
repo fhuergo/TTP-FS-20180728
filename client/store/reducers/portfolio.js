@@ -9,8 +9,8 @@ const retrievePortfolio = portfolio => ({
 
 export const getPortfolio = userId => async dispatch => {
   try {
-    const { data } = await axios.get(`/api/portfolio/${userId}`)
-    dispatch(retrievePortfolio(data))
+    let bye = { data: "bye" }
+    const { data } = dispatch(retrievePortfolio(data)) // await axios.get(`/api/portfolio/${userId}`)
   } catch (err) {
     console.error(err)
   }

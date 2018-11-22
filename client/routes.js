@@ -32,7 +32,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
           </Switch>
         )}
-        <Route component={Login} /> */}
+        {/* <Route component={Login} /> */}
       </Switch>
     )
   }

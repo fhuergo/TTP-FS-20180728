@@ -9,14 +9,16 @@ const retrieveCash = cash => ({
 
 export const getCash = userId => async dispatch => {
   try {
-    const { data } = await axios.get(`/api/cash/${userId}`)
+    let hi = {}
+    hi.data = "hello"
+    const { data } = hi //await axios.get(`/api/cash/${userId}`) CASH UPDATE ON USER
     dispatch(retrieveCash(data))
   } catch (err) {
     console.error(err)
   }
 }
 
-export default (state = [], action) => {
+export default (state = 5000, action) => {
   switch (action.type) {
     case GET_CASH:
       return cash

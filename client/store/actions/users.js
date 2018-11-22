@@ -1,12 +1,15 @@
 import axios from "axios"
 import "babel-polyfill" // needed or else runtime error with async function "me"
 import history from "../../history"
+import { runInNewContext } from "vm" // new automatic import; if there's a bug try commenting out
 
 export const GET_USER = "GET_USER"
 export const REMOVE_USER = "REMOVE_USER"
+export const UPDATE_CASH = "UPDATE_CASH"
 
 export const getUser = user => ({ type: GET_USER, user })
 export const removeUser = () => ({ type: REMOVE_USER })
+export const newCashAmt = newUserObj => ({ type: UPDATE_CASH, newUserObj })
 
 export const me = () => async dispatch => {
   try {
@@ -28,7 +31,6 @@ export const auth = (name, email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push("/home")
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -40,6 +42,20 @@ export const logout = () => async dispatch => {
     dispatch(removeUser())
     //dispatch(getCart({}))
     history.push("/login")
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateCash = (newAmount, currentUser) => async dispatch => {
+  try {
+    currentUser.cash = newAmount
+    const updatedUser = currentUser
+    const res = await axios.put(
+      `/api/user/updateCash/${currentUser.id}/`,
+      updatedUser
+    )
+    dispatch(newCashAmt(res.data))
   } catch (err) {
     console.error(err)
   }

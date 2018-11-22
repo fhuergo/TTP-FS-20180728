@@ -6,7 +6,7 @@ const path = require("path")
 const passport = require("passport")
 const session = require("express-session")
 const bodyParser = require("body-parser")
-const db = require("./db") // we will need our sequelize instance from somewhere
+const { db } = require("./db") // we will need our sequelize instance from somewhere
 app.use(express.static(path.join(__dirname, "..", "public"))) // can access css, etc
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
