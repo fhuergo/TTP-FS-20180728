@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { IEXClient } from "iex-api"
 import { connect } from "react-redux"
 import { getCash } from "../store/reducers/cash"
 import axios from "axios"
