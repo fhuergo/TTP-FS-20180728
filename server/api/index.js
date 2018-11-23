@@ -1,10 +1,11 @@
 const router = require("express").Router()
 
-router.use(require("./login"))
+console.log("made it to api/index")
 
-router.get("/", (req, res, next) => {
-  res.send("hooray")
-})
+router.use("/login", require("./login"))
+router.use("/user", require("./user"))
+router.use("/portfolio", require("./portfolio"))
+router.use("/transaction", require("./transaction"))
 
 router.use(function(req, res, next) {
   const err = new Error("Not found.")

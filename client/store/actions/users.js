@@ -5,11 +5,9 @@ import { runInNewContext } from "vm" // new automatic import; if there's a bug t
 
 export const GET_USER = "GET_USER"
 export const REMOVE_USER = "REMOVE_USER"
-export const UPDATE_CASH = "UPDATE_CASH"
 
 export const getUser = user => ({ type: GET_USER, user })
 export const removeUser = () => ({ type: REMOVE_USER })
-export const newCashAmt = newUserObj => ({ type: UPDATE_CASH, newUserObj })
 
 export const me = () => async dispatch => {
   try {
@@ -47,15 +45,11 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const updateCash = (newAmount, currentUser) => async dispatch => {
+// cash updates
+export const updateUser = (userId, updatedUser) => async dispatch => {
   try {
-    currentUser.cash = newAmount
-    const updatedUser = currentUser
-    const res = await axios.put(
-      `/api/user/updateCash/${currentUser.id}/`,
-      updatedUser
-    )
-    dispatch(newCashAmt(res.data))
+    const { data } = await axios.put(`/api/user/${+userId}/`, updatedUser)
+    dispatch(getUser(data))
   } catch (err) {
     console.error(err)
   }

@@ -3,9 +3,12 @@
 //const { db } = require("../index")
 const User = require("./user")
 const PortfolioItem = require("./portfolio")
-console.log(`User is ${User}\nPortfolioItem is ${PortfolioItem}`)
+const Transaction = require("./transaction")
 
-User.hasMany(PortfolioItem)
-PortfolioItem.belongsTo(User)
+User.hasMany(PortfolioItem, { as: "userId" })
+PortfolioItem.belongsTo(User, { as: "userId" })
 
-module.exports = { User, PortfolioItem }
+User.hasMany(Transaction)
+Transaction.belongsTo(User)
+
+module.exports = { User, PortfolioItem, Transaction }

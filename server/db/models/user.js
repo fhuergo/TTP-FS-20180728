@@ -4,7 +4,7 @@ const Sequelize = require("sequelize")
 
 const { db } = require("../index")
 
-const { STRING, INTEGER } = Sequelize
+const { STRING, DECIMAL } = Sequelize
 
 const User = db.define(
   "user",
@@ -26,7 +26,7 @@ const User = db.define(
       type: STRING
     },
     cash: {
-      type: INTEGER,
+      type: DECIMAL,
       defaultValue: 5000,
       validate: { min: 0, max: Infinity },
       allowNull: false
