@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import Portfolio from "./Portfolio"
 import BuyStocks from "./BuyStocks"
-import axios from "axios"
 import { getPortfolio } from "../store/reducers/portfolio"
 import { connect } from "react-redux"
 

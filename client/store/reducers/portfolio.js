@@ -1,4 +1,5 @@
 import axios from "axios"
+import "babel-polyfill" // might help fix /get not working
 
 const GET_PORTFOLIO = "GET_PORTFOLIO"
 const GET_UPDATED_PORTFOLIO = "GET_UPDATED_PORTFOLIO"
@@ -56,7 +57,9 @@ export const createPortfolioItem = (
 
 export const getPortfolio = userId => async dispatch => {
   try {
-    const { data } = await axios.get(`/api/portfolio/${+userId}`)
+    console.log("typeof userId", typeof userId) // number
+    const { data } = await axios.get(`/api/portfolio/${userId}`)
+    console.log("data is", data) // an HTML file?!
     dispatch(retrievePortfolio(data))
   } catch (err) {
     console.error(err)
@@ -66,6 +69,8 @@ export const getPortfolio = userId => async dispatch => {
 export default (state = [], action) => {
   switch (action.type) {
     case GET_PORTFOLIO:
+      console.log("case GET_PORTFOLIO in reducer")
+      console.log("action.portfolio is", action.portfolio)
       return action.portfolio
     case GET_UPDATED_PORTFOLIO:
       for (let i = 0; i < action.portfolio.length; i++) {

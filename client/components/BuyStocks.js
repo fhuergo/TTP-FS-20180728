@@ -61,15 +61,15 @@ class BuyStocks extends Component {
     } = this.props
     const { quantityBeingTypedIn, stockBeingTypedIn } = this.state
     this.setState({ currentError: "Loading..." })
-    let latestPrice
+    //let latestPrice
     let stock
     try {
       stock = await axios.get(
         `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m`
       )
-      if (stock) {
-        latestPrice = stock.data.quote.latestPrice
-      }
+      // if (stock) {
+      //   latestPrice = stock.data.quote.latestPrice
+      // }
     } catch (err) {
       this.setState({ currentError: "That ticker doesn't exist." })
       return
@@ -80,7 +80,8 @@ class BuyStocks extends Component {
       })
       return
     }
-    const notEnoughMoney = cash - latestPrice * quantityBeingTypedIn < 0
+    const notEnoughMoney =
+      cash - this.state.latestPrice * quantityBeingTypedIn < 0
     if (notEnoughMoney) {
       this.setState({
         currentError: "Funds not adequate to make this purchase."
@@ -89,7 +90,7 @@ class BuyStocks extends Component {
       // process the purchase:
 
       // update user's cash amount
-      let newCashAmount = cash - latestPrice * quantityBeingTypedIn
+      let newCashAmount = cash - this.state.latestPrice * quantityBeingTypedIn
       newCashAmount = newCashAmount.toFixed(2)
       let updatedUser = user
       updatedUser.cash = newCashAmount
@@ -103,6 +104,7 @@ class BuyStocks extends Component {
       if (idAndNumShares) {
         updateStockItem(idAndNumShares, stockBeingTypedIn, user.id)
       } else {
+        console.log("hitting else of if (idAndNumShares){} ELSE {}")
         newStockItem(stockBeingTypedIn, quantityBeingTypedIn, user.id)
       }
 

@@ -4,14 +4,19 @@ import { connect } from "react-redux"
 class Portfolio extends Component {
   constructor(props) {
     super(props)
+    this.portfolio = props.portfolio
   }
   render() {
-    // const portfolio = this.props.portfolio
-    //   ? this.props.portfolio.map((item, idx) => {
-    //       return <div key={idx}>{item}</div>
-    //     })
-    //   : ""
-    return <div />
+    console.log("this.portfolio", this.portfolio)
+    return (
+      <div>
+        {this.portfolio
+          ? this.portfolio.map((item, idx) => {
+              return <div key={idx}>{item}</div>
+            })
+          : ""}
+      </div>
+    )
   }
 }
 
