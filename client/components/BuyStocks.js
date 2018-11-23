@@ -104,7 +104,6 @@ class BuyStocks extends Component {
       if (idAndNumShares) {
         updateStockItem(idAndNumShares, stockBeingTypedIn, user.id)
       } else {
-        console.log("hitting else of if (idAndNumShares){} ELSE {}")
         newStockItem(stockBeingTypedIn, quantityBeingTypedIn, user.id)
       }
 

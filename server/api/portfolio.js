@@ -4,10 +4,8 @@ const PortfolioItem = require("../db/models/portfolio")
 
 router.get("/:userId", async (req, res, next) => {
   try {
-    let { userId } = req.params
-    userId = Number(userId)
     const portfolio = await PortfolioItem.findAll({
-      where: { userId }
+      where: { userId: req.params.userId }
     })
     if (portfolio) {
       res.status(200).send(portfolio) // returns HTML file

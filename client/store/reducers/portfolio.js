@@ -69,8 +69,6 @@ export const getPortfolio = userId => async dispatch => {
 export default (state = [], action) => {
   switch (action.type) {
     case GET_PORTFOLIO:
-      console.log("case GET_PORTFOLIO in reducer")
-      console.log("action.portfolio is", action.portfolio)
       return action.portfolio
     case GET_UPDATED_PORTFOLIO:
       for (let i = 0; i < action.portfolio.length; i++) {
