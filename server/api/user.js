@@ -28,7 +28,7 @@ router.get("/:userId", async (req, res, next) => {
 
 router.put("/:userId", async (req, res, next) => {
   try {
-    const userToUpdate = await User.findById(req.params.userId)
+    const userToUpdate = await User.findByPk(req.params.userId)
     if (!userToUpdate) {
       res.sendStatus(404)
     } else {

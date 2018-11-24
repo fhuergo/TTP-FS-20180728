@@ -14,20 +14,23 @@ class UserHome extends Component {
     // get portfolio, pass down to portfolio (so updateStockOrCreateNew can access it to see if company already exists)
   }
   alreadyHasTheStock(stock, additionalQuantity) {
+    console.log("alreadyHasTheStock hit")
     for (let i = 0; i < this.props.portfolio.length; i++) {
       let stockItem = this.props.portfolio[i]
-      if (stockItem.company === stock) {
-        return [stockItem.id, stockItem.numShares + additionalQuantity]
+      console.log(
+        `${stockItem.company} (stockItem.company) vs ${stock} (stock)`
+      )
+      if (stockItem.company.toUpperCase() === stock.toUpperCase()) {
+        return [stockItem.id, +stockItem.numShares + +additionalQuantity]
       }
     }
     return null
   }
   render() {
-    const { name, portfolio } = this.props
     return (
       <div>
-        Welcome, {name}
-        <Portfolio portfolio={portfolio} />
+        Welcome, {this.props.name}
+        <Portfolio portfolio={this.props.portfolio} />
         <BuyStocks alreadyHasTheStock={this.alreadyHasTheStock} />
       </div>
     )

@@ -87,7 +87,7 @@ class BuyStocks extends Component {
         currentError: "Funds not adequate to make this purchase."
       })
     } else {
-      // process the purchase:
+      // we accept the purchase and begin processing!
 
       // update user's cash amount
       let newCashAmount = cash - this.state.latestPrice * quantityBeingTypedIn

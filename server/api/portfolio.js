@@ -32,7 +32,10 @@ router.put("/:portfolioId", async (req, res, next) => {
   try {
     const portfolioItem = await PortfolioItem.findByPk(req.params.portfolioId)
     const newPI = await portfolioItem.update(req.body)
-    res.status(201).send(newPI)
+    const allMyItems = await PortfolioItem.findAll({
+      where: { userId: newPI.userId }
+    })
+    res.status(201).send(allMyItems)
   } catch (err) {
     next(err)
   }
@@ -41,7 +44,7 @@ router.put("/:portfolioId", async (req, res, next) => {
 // if selling
 // router.delete("/:portfolioId", async (req, res, next) => {
 //   try {
-//     const itemToDelete = await PortfolioItem.findById(req.params.portfolioId)
+//     const itemToDelete = await PortfolioItem.findByPk(req.params.portfolioId)
 //     if (!itemToDelete) {
 //       res.sendStatus(404)
 //     } else {

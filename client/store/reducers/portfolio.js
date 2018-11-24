@@ -10,9 +10,9 @@ const retrievePortfolio = portfolio => ({
   portfolio
 })
 
-const retrieveUpdatedPortfolio = updatedItem => ({
+const retrieveUpdatedPortfolio = updatedPortfolio => ({
   type: GET_UPDATED_PORTFOLIO,
-  updatedItem
+  updatedPortfolio
 })
 
 const addPortfolioItem = portfolioItem => ({
@@ -57,9 +57,7 @@ export const createPortfolioItem = (
 
 export const getPortfolio = userId => async dispatch => {
   try {
-    console.log("typeof userId", typeof userId) // number
     const { data } = await axios.get(`/api/portfolio/${userId}`)
-    console.log("data is", data) // an HTML file?!
     dispatch(retrievePortfolio(data))
   } catch (err) {
     console.error(err)
@@ -71,14 +69,7 @@ export default (state = [], action) => {
     case GET_PORTFOLIO:
       return action.portfolio
     case GET_UPDATED_PORTFOLIO:
-      for (let i = 0; i < action.portfolio.length; i++) {
-        let portfItem = action.portfolio[i]
-        if (portfItem.id === action.updatedItem.id) {
-          action.portfolio[i] = action.updatedItem
-          break
-        }
-      }
-      return action.portfolio
+      return action.updatedPortfolio
     case CREATE_PORTFOLIO_ITEM:
       return state.concat(action.portfolioItem)
     default:
