@@ -18,10 +18,10 @@ const Transaction = db.define("transaction", {
     allowNull: false,
     validate: { min: 0.01 }
   },
-  totalCost: {
-    type: DECIMAL,
+  userId: {
+    type: INTEGER,
     allowNull: false,
-    validate: { min: 0.01 }
+    validate: { min: 1 }
   }
 })
 

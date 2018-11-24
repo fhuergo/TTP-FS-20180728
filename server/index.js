@@ -40,10 +40,6 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-// app.get("*", function(req, res) {
-//   res.sendFile(path.join(__dirname, "..", "public", "index.html")) // index.html stays so bundle.js can be accessed!
-// })
-
 app.use("/api", require("./api"))
 app.use("/auth", require("./auth"))
 
