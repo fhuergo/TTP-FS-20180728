@@ -40,7 +40,7 @@ class BuyStocks extends Component {
         }
       } catch (err) {
         this.setState({ latestPrice: 0 })
-        console.log(err)
+        console.error(err)
       }
     }
   }
