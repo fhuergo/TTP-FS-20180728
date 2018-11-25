@@ -5,6 +5,26 @@ const GET_PORTFOLIO = "GET_PORTFOLIO"
 const GET_UPDATED_PORTFOLIO = "GET_UPDATED_PORTFOLIO"
 const CREATE_PORTFOLIO_ITEM = "CREATE_PORTFOLIO_ITEM"
 
+const getLatestPrice = async data => {
+  for (let i = 0; i < data.length; i++) {
+    const companyData = await axios.get(
+      `https://api.iextrading.com/1.0/stock/${data[
+        i
+      ].company.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
+    )
+    const { latestPrice, open } = companyData.data.quote
+    data[i].latestPrice = latestPrice
+    if (latestPrice > open) {
+      data[i].color = "green"
+    } else if (latestPrice < open) {
+      data[i].color = "red"
+    } else {
+      data[i].color = "grey"
+    }
+  }
+  return data
+}
+
 const retrievePortfolio = portfolio => ({
   type: GET_PORTFOLIO,
   portfolio
@@ -31,10 +51,11 @@ export const updateStock = (
       numShares: +idAndNumShares[1],
       userId: userId
     }
-    const { data } = await axios.put(
+    let { data } = await axios.put(
       `/api/portfolio/${+idAndNumShares[0]}`,
       newStock
     )
+    data = getLatestPrice(data)
     dispatch(retrieveUpdatedPortfolio(data))
   } catch (err) {
     console.error(err)
@@ -48,7 +69,8 @@ export const createPortfolioItem = (
 ) => async dispatch => {
   try {
     const newPortfolioItem = { company, numShares, userId }
-    const { data } = await axios.post(`/api/portfolio`, newPortfolioItem)
+    let { data } = await axios.post(`/api/portfolio`, newPortfolioItem)
+    data = getLatestPrice(data)
     dispatch(addPortfolioItem(data))
   } catch (err) {
     console.error(err)
@@ -57,7 +79,8 @@ export const createPortfolioItem = (
 
 export const getPortfolio = userId => async dispatch => {
   try {
-    const { data } = await axios.get(`/api/portfolio/${userId}`)
+    let { data } = await axios.get(`/api/portfolio/${userId}`)
+    data = await getLatestPrice(data)
     dispatch(retrievePortfolio(data))
   } catch (err) {
     console.error(err)

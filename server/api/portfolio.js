@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const axios = require("axios")
 const PortfolioItem = require("../db/models/portfolio")
 
 router.get("/:userId", async (req, res, next) => {
@@ -8,7 +9,7 @@ router.get("/:userId", async (req, res, next) => {
       where: { userId: req.params.userId }
     })
     if (portfolio) {
-      res.status(200).send(portfolio) // returns HTML file
+      res.status(200).send(portfolio)
     } else {
       res.sendStatus(404)
     }

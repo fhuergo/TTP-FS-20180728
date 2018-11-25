@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import axios from "axios"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import Portfolio from "./Portfolio"
 import BuyStocks from "./BuyStocks"
 import Transactions from "./Transactions"
@@ -9,26 +9,10 @@ import { connect } from "react-redux"
 class UserHome extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      portfolioTotal: ""
-    }
     this.alreadyHasTheStock = this.alreadyHasTheStock.bind(this)
-    this.calculateTotal = this.calculateTotal.bind(this)
   }
   componentDidMount() {
     this.props.fetchPortfolio(this.props.userId)
-    this.calculateTotal()
-  }
-  calculateTotal() {
-    let portfolioTotal = 0
-    this.props.portfolio.forEach(async item => {
-      const itemData = await axios.get(
-        `https://api.iextrading.com/1.0/stock/${item.company.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
-      )
-      portfolioTotal += itemData.data.quote.latestPrice
-      // THIS WOULD BE AT ORIGINAL PURCHASES NOT CURRENT VALUE!
-    })
-    this.setState({ portfolioTotal })
   }
   alreadyHasTheStock(stock, additionalQuantity) {
     for (let i = 0; i < this.props.portfolio.length; i++) {
@@ -40,14 +24,36 @@ class UserHome extends Component {
     return null
   }
   render() {
-    const { name, portfolio, portfolioTotal } = this.props
+    const { name, portfolio } = this.props
+    const MyPortfolioPage = props => {
+      return <Portfolio portfolio={portfolio} {...props} />
+    }
+    const MyBuyStocksPage = props => {
+      return (
+        <BuyStocks alreadyHasTheStock={this.alreadyHasTheStock} {...props} />
+      )
+    }
     return (
-      <div>
-        Welcome, {name}
-        <Portfolio portfolio={portfolio} portfolioTotal={portfolioTotal} />
-        <BuyStocks alreadyHasTheStock={this.alreadyHasTheStock} />
-        <Transactions />
-      </div>
+      <Router>
+        <div style={{ width: 1000, margin: "0 auto" }}>
+          <ul>
+            <li>
+              <Link to="/portfolio">Portfolio</Link>
+            </li>
+            <li>
+              <Link to="/transactions">Transactions</Link>
+            </li>
+            <li>
+              <Link to="/buystocks">Buy stocks</Link>
+            </li>
+          </ul>
+          Welcome, {name}
+          <hr />
+          <Route exact path="/portfolio" render={MyPortfolioPage} />
+          <Route exact path="/transactions" component={Transactions} />
+          <Route exact path="/buystocks" render={MyBuyStocksPage} />
+        </div>
+      </Router>
     )
   }
 }

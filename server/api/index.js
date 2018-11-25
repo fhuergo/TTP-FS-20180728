@@ -1,7 +1,5 @@
 const router = require("express").Router()
 
-console.log("made it to api/index")
-
 router.use("/login", require("./login"))
 router.use("/user", require("./user"))
 router.use("/portfolio", require("./portfolio"))

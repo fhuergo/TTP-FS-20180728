@@ -3,8 +3,6 @@ const router = express.Router()
 const User = require("../db/models/user")
 const PortfolioItem = require("../db/models/portfolio")
 
-console.log("made it to api/user")
-
 router.get("/:userId", async (req, res, next) => {
   console.log("router get :userId")
   try {

@@ -49,7 +49,7 @@ class BuyStocks extends Component {
       [event.target.name]: event.target.value
     })
   }
-  async handleBuy(event) {
+  handleBuy(event) {
     event.preventDefault()
     const {
       cash,
@@ -62,15 +62,15 @@ class BuyStocks extends Component {
     } = this.props
     const { quantityBeingTypedIn, stockBeingTypedIn } = this.state
     this.setState({ currentError: "Loading..." })
-    let stock
-    try {
-      stock = await axios.get(
-        `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m`
-      )
-    } catch (err) {
-      this.setState({ currentError: "That ticker doesn't exist." })
-      return
-    }
+    // let stock
+    // try {
+    //   stock = await axios.get(
+    //     `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m`
+    //   )
+    // } catch (err) {
+    //   this.setState({ currentError: "That ticker doesn't exist." })
+    //   return
+    // }
     if (quantityBeingTypedIn % 1 !== 0) {
       this.setState({
         currentError: "You may only buy whole number quantities of shares."

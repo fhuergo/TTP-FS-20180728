@@ -4,8 +4,6 @@ import { withRouter, Route, Switch } from "react-router-dom"
 import PropTypes from "prop-types"
 import { Login, Signup, UserHome } from "./components"
 import { me } from "./store/actions/users"
-//import {fetchProducts} from './store/actions/products'
-//import {fetchCart} from './store/actions/cart'
 
 /**
  * COMPONENT
@@ -21,12 +19,8 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {/* <Route exact path="/cart" component={Cart} /> */}
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        {/* <Route exact path="/products/:productId" component={SingleProduct} />
-        <Route exact path="/products" component={ProductPage} />
-        <Route exact path="/checkout" component={CheckoutPage} /> */}
         {isLoggedIn && (
           <Switch>
             <Route path="/home" component={UserHome} />
