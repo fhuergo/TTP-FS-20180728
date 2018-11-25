@@ -4,17 +4,12 @@ const User = require("../db/models/user")
 const PortfolioItem = require("../db/models/portfolio")
 
 router.get("/:userId", async (req, res, next) => {
-  console.log("router get :userId")
   try {
     const user = User.findAll({
       where: { id: +req.params.userId }
       //include: [{ model: PortfolioItem }]
     })
     if (user) {
-      console.log(
-        "user in routes is (find portfolio, then eager load transactions)",
-        user
-      )
       res.status(200).send(user)
     } else {
       res.sendStatus(404)

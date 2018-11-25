@@ -55,7 +55,7 @@ export const updateStock = (
       `/api/portfolio/${+idAndNumShares[0]}`,
       newStock
     )
-    data = getLatestPrice(data)
+    data = await getLatestPrice(data)
     dispatch(retrieveUpdatedPortfolio(data))
   } catch (err) {
     console.error(err)
@@ -70,7 +70,7 @@ export const createPortfolioItem = (
   try {
     const newPortfolioItem = { company, numShares, userId }
     let { data } = await axios.post(`/api/portfolio`, newPortfolioItem)
-    data = getLatestPrice(data)
+    data = await getLatestPrice(data)
     dispatch(addPortfolioItem(data))
   } catch (err) {
     console.error(err)

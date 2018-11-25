@@ -1,14 +1,13 @@
 import React from "react"
 
 const Portfolio = ({ portfolio }) => {
-  console.log("portfolio", portfolio)
+  console.log("portfolio in dumb component", portfolio)
   return (
     <div>
       Portfolio
       <ul>
         {portfolio.map((item, idx) => {
           const { company, numShares, color, latestPrice } = item
-          console.log(`latestPrice is ${latestPrice}, color is ${color}`)
           return (
             <li key={idx}>
               {company} {numShares} <font color={color}>{latestPrice}</font>
