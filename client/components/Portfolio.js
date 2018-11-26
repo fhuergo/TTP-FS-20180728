@@ -1,7 +1,6 @@
 import React from "react"
 
 const Portfolio = ({ portfolio }) => {
-  console.log("portfolio in dumb component", portfolio)
   return (
     <div>
       Portfolio
@@ -10,7 +9,8 @@ const Portfolio = ({ portfolio }) => {
           const { company, numShares, color, latestPrice } = item
           return (
             <li key={idx}>
-              {company} {numShares} <font color={color}>{latestPrice}</font>
+              {company} {numShares} <font color={color}>{latestPrice}</font> (
+              {(numShares * latestPrice).toFixed(2)})
             </li>
           )
         })}

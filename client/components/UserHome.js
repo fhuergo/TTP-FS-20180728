@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import Portfolio from "./Portfolio"
-import BuyStocks from "./BuyStocks"
 import Transactions from "./Transactions"
 import { getPortfolio } from "../store/reducers/portfolio"
 import { connect } from "react-redux"
+import PortfolioAndBuy from "./PortfolioAndBuy"
+import { retrieveTransactions } from "../store/reducers/transaction"
 
 class UserHome extends Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class UserHome extends Component {
   }
   componentDidMount() {
     this.props.fetchPortfolio(this.props.userId)
+    this.props.fetchTransactions(this.props.userId)
   }
   alreadyHasTheStock(stock, additionalQuantity) {
     for (let i = 0; i < this.props.portfolio.length; i++) {
@@ -24,34 +25,38 @@ class UserHome extends Component {
     return null
   }
   render() {
-    const { name, portfolio } = this.props
-    const MyPortfolioPage = props => {
-      return <Portfolio portfolio={portfolio} {...props} />
-    }
-    const MyBuyStocksPage = props => {
+    const { name, portfolio, transactions } = this.props
+    const MyPortfolioAndBuyStocksPages = props => {
       return (
-        <BuyStocks alreadyHasTheStock={this.alreadyHasTheStock} {...props} />
+        <PortfolioAndBuy
+          portfolio={portfolio}
+          alreadyHasTheStock={this.alreadyHasTheStock}
+          {...props}
+        />
       )
+    }
+    const MyTransactionsPage = props => {
+      return <Transactions transactions={transactions} {...props} />
     }
     return (
       <Router>
         <div style={{ width: 1000, margin: "0 auto" }}>
           <ul>
             <li>
-              <Link to="/portfolio">Portfolio</Link>
+              <Link to="/portfolio">Portfolio / Buy Stocks</Link>
             </li>
             <li>
               <Link to="/transactions">Transactions</Link>
             </li>
-            <li>
-              <Link to="/buystocks">Buy stocks</Link>
-            </li>
           </ul>
           Welcome, {name}
           <hr />
-          <Route exact path="/portfolio" render={MyPortfolioPage} />
-          <Route exact path="/transactions" component={Transactions} />
-          <Route exact path="/buystocks" render={MyBuyStocksPage} />
+          <Route
+            exact
+            path="/portfolio"
+            render={MyPortfolioAndBuyStocksPages}
+          />
+          <Route exact path="/transactions" render={MyTransactionsPage} />
         </div>
       </Router>
     )
@@ -61,11 +66,13 @@ class UserHome extends Component {
 const mapStateToProps = state => ({
   name: state.user.name,
   userId: state.user.id,
-  portfolio: state.portfolio
+  portfolio: state.portfolio,
+  transactions: state.transactions
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPortfolio: userId => dispatch(getPortfolio(userId))
+  fetchPortfolio: userId => dispatch(getPortfolio(userId)),
+  fetchTransactions: userId => dispatch(retrieveTransactions(userId))
 })
 
 export default connect(

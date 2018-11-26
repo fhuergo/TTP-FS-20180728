@@ -6,20 +6,46 @@ const GET_UPDATED_PORTFOLIO = "GET_UPDATED_PORTFOLIO"
 const CREATE_PORTFOLIO_ITEM = "CREATE_PORTFOLIO_ITEM"
 
 const getLatestPrice = async data => {
-  for (let i = 0; i < data.length; i++) {
-    const companyData = await axios.get(
-      `https://api.iextrading.com/1.0/stock/${data[
-        i
-      ].company.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
-    )
+  if (!Array.isArray(data)) {
+    let companyData
+    try {
+      companyData = await axios.get(
+        `https://api.iextrading.com/1.0/stock/${data.company.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
+      )
+    } catch (err) {
+      console.error(err)
+    }
     const { latestPrice, open } = companyData.data.quote
-    data[i].latestPrice = latestPrice
+    data.latestPrice = latestPrice
     if (latestPrice > open) {
-      data[i].color = "green"
+      data.color = "green"
     } else if (latestPrice < open) {
-      data[i].color = "red"
+      data.color = "red"
     } else {
-      data[i].color = "grey"
+      data.color = "grey"
+    }
+  } else {
+    for (let i = 0; i < data.length; i++) {
+      let companyData
+      try {
+        companyData = await axios.get(
+          `https://api.iextrading.com/1.0/stock/${data[
+            i
+          ].company.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
+        )
+      } catch (err) {
+        console.error(err)
+        continue
+      }
+      const { latestPrice, open } = companyData.data.quote
+      data[i].latestPrice = latestPrice
+      if (latestPrice > open) {
+        data[i].color = "green"
+      } else if (latestPrice < open) {
+        data[i].color = "red"
+      } else {
+        data[i].color = "grey"
+      }
     }
   }
   return data

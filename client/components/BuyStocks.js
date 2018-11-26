@@ -49,8 +49,9 @@ class BuyStocks extends Component {
       [event.target.name]: event.target.value
     })
   }
-  handleBuy(event) {
+  async handleBuy(event) {
     event.preventDefault()
+    this.setState({ currentError: "Loading..." })
     const {
       cash,
       updateCashAmount,
@@ -61,24 +62,25 @@ class BuyStocks extends Component {
       newTransaction
     } = this.props
     const { quantityBeingTypedIn, stockBeingTypedIn } = this.state
-    this.setState({ currentError: "Loading..." })
-    // let stock
-    // try {
-    //   stock = await axios.get(
-    //     `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m`
-    //   )
-    // } catch (err) {
-    //   this.setState({ currentError: "That ticker doesn't exist." })
-    //   return
-    // }
+    let latestPrice
+    try {
+      const stock = await axios.get(
+        `https://api.iextrading.com/1.0/stock/${stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
+      )
+      latestPrice = stock.data.quote.latestPrice
+    } catch (err) {
+      this.setState({
+        currentError: `${stockBeingTypedIn.toUpperCase()} doesn't exist.`
+      })
+      return
+    }
     if (quantityBeingTypedIn % 1 !== 0) {
       this.setState({
         currentError: "You may only buy whole number quantities of shares."
       })
       return
     }
-    const notEnoughMoney =
-      cash - this.state.latestPrice * quantityBeingTypedIn < 0
+    const notEnoughMoney = cash - latestPrice * quantityBeingTypedIn < 0
     if (notEnoughMoney) {
       this.setState({
         currentError: "Funds not adequate to make this purchase."
@@ -86,17 +88,8 @@ class BuyStocks extends Component {
     } else {
       // we accept the purchase and begin processing!
 
-      const userSaysYes = confirm(
-        `The total price for ${quantityBeingTypedIn} ${stockBeingTypedIn}s is ${(
-          this.state.latestPrice * quantityBeingTypedIn
-        ).toFixed(2)}. Are you sure you'd like to proceed?`
-      )
-      if (!userSaysYes) {
-        this.setState({ currentError: "" })
-        return
-      }
       // update user's cash amount
-      let newCashAmount = cash - this.state.latestPrice * quantityBeingTypedIn
+      let newCashAmount = cash - latestPrice * quantityBeingTypedIn
       newCashAmount = newCashAmount.toFixed(2)
       let updatedUser = user
       updatedUser.cash = newCashAmount
@@ -106,7 +99,7 @@ class BuyStocks extends Component {
       newTransaction(
         stockBeingTypedIn,
         quantityBeingTypedIn,
-        this.state.latestPrice,
+        latestPrice,
         user.id
       )
 
@@ -132,16 +125,7 @@ class BuyStocks extends Component {
   }
   render() {
     const { cash } = this.props
-    const { latestPrice, openingPrice } = this.state
     const newCash = Number(cash)
-    let color
-    if (latestPrice > openingPrice) {
-      color = "green"
-    } else if (latestPrice < openingPrice) {
-      color = "red"
-    } else {
-      color = "gray"
-    }
     return (
       <form onSubmit={this.handleBuy} autoComplete="off">
         <div>
@@ -158,8 +142,7 @@ class BuyStocks extends Component {
             style={{ textTransform: "uppercase" }}
             required
           />
-        </div>{" "}
-        <font color={color}>{latestPrice ? latestPrice.toFixed(2) : ""}</font>
+        </div>
         <div>
           <label>Quantity:</label>
           <input
