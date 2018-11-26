@@ -5,20 +5,22 @@ const Portfolio = ({ portfolio }) => {
     return a.id - b.id
   })
   return (
-    <div>
+    <table>
       Portfolio
-      <ul>
-        {portfolio.map((item, idx) => {
-          const { company, numShares, color, latestPrice } = item
-          return (
-            <li key={idx}>
-              {company} {numShares} <font color={color}>{latestPrice}</font> (
-              {(numShares * latestPrice).toFixed(2)})
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+      {portfolio.map((item, idx) => {
+        const { company, numShares, color, latestPrice } = item
+        return (
+          <tr key={idx}>
+            <td>{company}</td>
+            <td>{numShares}</td>
+            <td>
+              <font color={color}>{latestPrice.toFixed(2)}</font>
+            </td>
+            <td>{(numShares * latestPrice).toFixed(2)}</td>
+          </tr>
+        )
+      })}
+    </table>
   )
 }
 
