@@ -1,6 +1,9 @@
 import React from "react"
 
 const Portfolio = ({ portfolio }) => {
+  portfolio = portfolio.sort((a, b) => {
+    return a.id - b.id
+  })
   return (
     <div>
       Portfolio

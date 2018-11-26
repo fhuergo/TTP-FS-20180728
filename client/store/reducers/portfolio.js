@@ -3,7 +3,7 @@ import "babel-polyfill" // might help fix /get not working
 
 const GET_PORTFOLIO = "GET_PORTFOLIO"
 const GET_UPDATED_PORTFOLIO = "GET_UPDATED_PORTFOLIO"
-const CREATE_PORTFOLIO_ITEM = "CREATE_PORTFOLIO_ITEM"
+//const CREATE_PORTFOLIO_ITEM = "CREATE_PORTFOLIO_ITEM"
 
 const getLatestPrice = async data => {
   if (!Array.isArray(data)) {
@@ -97,7 +97,7 @@ export const createPortfolioItem = (
     const newPortfolioItem = { company, numShares, userId }
     let { data } = await axios.post(`/api/portfolio`, newPortfolioItem)
     data = await getLatestPrice(data)
-    dispatch(addPortfolioItem(data))
+    dispatch(retrieveUpdatedPortfolio(data))
   } catch (err) {
     console.error(err)
   }
@@ -119,8 +119,8 @@ export default (state = [], action) => {
       return action.portfolio
     case GET_UPDATED_PORTFOLIO:
       return action.updatedPortfolio
-    case CREATE_PORTFOLIO_ITEM:
-      return state.concat(action.portfolioItem)
+    // case CREATE_PORTFOLIO_ITEM:
+    //   return state.concat(action.portfolioItem)
     default:
       return state
   }

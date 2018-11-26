@@ -4,14 +4,16 @@ const Transactions = ({ transactions }) => {
   return (
     <div>
       Transactions
-      {transactions.map((transaction, idx) => {
-        const { company, numShares, price } = transaction
-        return (
-          <div key={idx}>
-            BUY ({company.toUpperCase()}) - {numShares} Shares @ {price}
-          </div>
-        )
-      })}
+      <ul>
+        {transactions.map((transaction, idx) => {
+          const { company, numShares, price } = transaction
+          return (
+            <li key={idx}>
+              BUY ({company.toUpperCase()}) - {numShares} Shares @ {price}
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }

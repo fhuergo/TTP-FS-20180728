@@ -21,8 +21,12 @@ router.get("/:userId", async (req, res, next) => {
 // purchasing stock not previously held
 router.post("/", async (req, res, next) => {
   try {
-    const newPortfolioItem = await PortfolioItem.create(req.body)
-    res.status(201).send(newPortfolioItem)
+    const newItem = await PortfolioItem.create(req.body)
+    const allMyItems = await PortfolioItem.findAll({
+      where: { userId: newItem.userId }
+    })
+    res.status(201).send(allMyItems)
+    //res.status(201).send(newPortfolioItem)
   } catch (err) {
     next(err)
   }
