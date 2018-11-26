@@ -23,26 +23,26 @@ class BuyStocks extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    if (!this.state.stockBeingTypedIn) {
-      this.setState({ latestPrice: 0 })
-    } else {
-      try {
-        const stock = await axios.get(
-          `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
-        )
-        if (stock) {
-          this.setState({
-            latestPrice: stock.data.quote.latestPrice,
-            openingPrice: stock.data.quote.open
-          })
-        } else {
-          this.setState({ latestPrice: 0 })
-        }
-      } catch (err) {
-        this.setState({ latestPrice: 0 })
-        console.error(err)
-      }
-    }
+    // if (!this.state.stockBeingTypedIn) {
+    //   this.setState({ latestPrice: 0 })
+    // } else {
+    //   try {
+    //     const stock = await axios.get(
+    //       `https://api.iextrading.com/1.0/stock/${this.state.stockBeingTypedIn.toLowerCase()}/batch?types=quote,news,chart&range=1m&last=10`
+    //     )
+    //     if (stock) {
+    //       this.setState({
+    //         latestPrice: stock.data.quote.latestPrice,
+    //         openingPrice: stock.data.quote.open
+    //       })
+    //     } else {
+    //       this.setState({ latestPrice: 0 })
+    //     }
+    //   } catch (err) {
+    //     this.setState({ latestPrice: 0 })
+    //     console.error(err)
+    //   }
+    // }
   }
   handleQuantChange(event) {
     this.setState({
