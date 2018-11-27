@@ -1,7 +1,7 @@
 # TTP-FS-20180728
 
 ## Get started
-Run the following commands:
+To see this project, run the following commands:
 1. `git clone https://github.com/fhuergo/TTP-FS-20180728`
 2. `cd TTP-FS-20180728`
 3. `npm i`
