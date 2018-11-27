@@ -1,15 +1,18 @@
 import React, { Component } from "react"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import Transactions from "./Transactions"
+import PortfolioAndBuy from "./PortfolioAndBuy"
+import NavBar from "./NavBar"
 import { getPortfolio } from "../store/reducers/portfolio"
 import { connect } from "react-redux"
-import PortfolioAndBuy from "./PortfolioAndBuy"
+
 import { retrieveTransactions } from "../store/reducers/transaction"
 
 class UserHome extends Component {
   constructor(props) {
     super(props)
     this.alreadyHasTheStock = this.alreadyHasTheStock.bind(this)
+    this.goHome = this.goHome.bind(this)
   }
   componentDidMount() {
     this.props.fetchPortfolio(this.props.userId)
@@ -23,6 +26,9 @@ class UserHome extends Component {
       }
     }
     return null
+  }
+  goHome() {
+    this.props.history.push("/login")
   }
   render() {
     const { name, portfolio, transactions } = this.props
@@ -41,16 +47,9 @@ class UserHome extends Component {
     return (
       <Router>
         <div style={{ width: 1000, margin: "0 auto" }}>
-          <ul>
-            <li>
-              <Link to="/portfolio">Portfolio / Buy Stocks</Link>
-            </li>
-            <li>
-              <Link to="/transactions">Transactions</Link>
-            </li>
-          </ul>
-          Welcome, {name}
+          <NavBar name={name} goHome={this.goHome} />
           <hr />
+          <Route exact path="/home" render={MyPortfolioAndBuyStocksPages} />
           <Route
             exact
             path="/portfolio"

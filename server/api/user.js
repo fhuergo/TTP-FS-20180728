@@ -7,7 +7,6 @@ router.get("/:userId", async (req, res, next) => {
   try {
     const user = User.findAll({
       where: { id: +req.params.userId }
-      //include: [{ model: PortfolioItem }]
     })
     if (user) {
       res.status(200).send(user)

@@ -26,7 +26,6 @@ router.post("/", async (req, res, next) => {
       where: { userId: newItem.userId }
     })
     res.status(201).send(allMyItems)
-    //res.status(201).send(newPortfolioItem)
   } catch (err) {
     next(err)
   }
@@ -45,20 +44,5 @@ router.put("/:portfolioId", async (req, res, next) => {
     next(err)
   }
 })
-
-// if selling
-// router.delete("/:portfolioId", async (req, res, next) => {
-//   try {
-//     const itemToDelete = await PortfolioItem.findByPk(req.params.portfolioId)
-//     if (!itemToDelete) {
-//       res.sendStatus(404)
-//     } else {
-//       await itemToDelete.destroy()
-//       res.sendStatus(204)
-//     }
-//   } catch (err) {
-//     next(err)
-//   }
-// })
 
 module.exports = router

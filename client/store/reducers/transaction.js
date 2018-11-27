@@ -1,10 +1,15 @@
 import axios from "axios"
 
 const GET_TRANSACTIONS = "GET_TRANSACTIONS"
+const CLEAR_TRANSACTIONS = "CLEAR_TRANSACTIONS"
 
 const getAllTransactions = allTransactions => ({
   type: GET_TRANSACTIONS,
   allTransactions
+})
+
+const clearTransactions = () => ({
+  type: CLEAR_TRANSACTIONS
 })
 
 export const retrieveTransactions = userId => async dispatch => {
@@ -31,10 +36,16 @@ export const createTransaction = (
   }
 }
 
+export const removeTransactions = () => dispatch => {
+  dispatch(clearTransactions())
+}
+
 export default (state = [], action) => {
   switch (action.type) {
     case GET_TRANSACTIONS:
       return action.allTransactions
+    case CLEAR_TRANSACTIONS:
+      return []
     default:
       return state
   }

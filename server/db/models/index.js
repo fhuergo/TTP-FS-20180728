@@ -1,6 +1,3 @@
-// relations go here
-// eager loading in express routes after!
-//const { db } = require("../index")
 const User = require("./user")
 const PortfolioItem = require("./portfolio")
 const Transaction = require("./transaction")
