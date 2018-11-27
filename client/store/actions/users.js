@@ -2,6 +2,8 @@ import axios from "axios"
 import "babel-polyfill" // needed or else runtime error with async function "me"
 import history from "../../history"
 import { runInNewContext } from "vm" // new automatic import; if there's a bug try commenting out
+import { removePortfolio } from "../reducers/portfolio"
+import { removeTransactions } from "../reducers/transaction"
 
 export const GET_USER = "GET_USER"
 export const REMOVE_USER = "REMOVE_USER"
@@ -19,6 +21,8 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (name, email, password, method) => async dispatch => {
+  removePortfolio()
+  removeTransactions()
   let res
   try {
     res = await axios.post(`/auth/${method}`, { name, email, password }) // originally res = await axios.post(`/auth/login/${method}`, { email, password })

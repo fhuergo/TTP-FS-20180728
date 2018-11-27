@@ -113,10 +113,8 @@ class BuyStocks extends Component {
     const newCash = Number(cash)
     return (
       <form onSubmit={this.handleBuy} autoComplete="off">
-        <div>
-          <FormLabel className="center">
-            Balance: ${newCash.toFixed(2)}
-          </FormLabel>
+        <div className="title">
+          <FormLabel>Balance: ${newCash.toFixed(2)}</FormLabel>
         </div>
         <div>
           <TextField
