@@ -7,4 +7,5 @@ Run the following commands:
 3. `npm i`
 4. `createdb stockportfolio`
 5. `npm run start-dev`
+
 Then, open [localhost:3000](localhost:3000).
