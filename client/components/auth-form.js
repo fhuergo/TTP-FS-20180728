@@ -2,61 +2,75 @@ import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { auth } from "../store/actions/users"
-
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
 /**
  * COMPONENT
  */
+
 const AuthForm = props => {
   const { name, displayName, handleSubmit, error, history } = props
   const nameInput =
     displayName === "Sign Up" ? (
       <div>
-        <label htmlFor="usersName">
-          <small>Name</small>
-        </label>
-        <input name="usersName" type="text" />
+        <label htmlFor="usersName">{/* <small>Name</small> */}</label>
+        <TextField name="usersName" type="text" placeholder="name" />
       </div>
     ) : (
       ""
     )
+  const antiDisplayName = displayName === "Sign Up" ? "Login" : "Sign Up"
+  const linkName = antiDisplayName === "Sign Up" ? "signup" : "login"
   return (
-    <div>
-      <form
-        onSubmit={(evt, propsHistory) => handleSubmit(evt, history)}
-        name={name}
-        className="login-form"
-      >
-        {nameInput}
-        <div>
-          {/* <label htmlFor="email">
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <Grid item xs={3}>
+        <div className="title">Portfolio Stock App</div>
+        <form
+          onSubmit={(evt, propsHistory) => handleSubmit(evt, history)}
+          name={name}
+          className="login-form"
+        >
+          {nameInput}
+          <div>
+            {/* <label htmlFor="email">
             <small>Email</small>
           </label> */}
-          <input
-            name="email"
-            type="email"
-            placeholder="email"
-            className="input"
-          />
-        </div>
-        <div>
-          {/* <label htmlFor="password">
+            <TextField
+              name="email"
+              type="email"
+              placeholder="email"
+              className="input"
+            />
+          </div>
+          <div>
+            {/* <label htmlFor="password">
             <small>Password</small>
           </label> */}
-          <input
-            name="password"
-            type="password"
-            placeholder="password"
-            className="input"
-          />
-        </div>
-        <div>
-          <button type="submit" className="log-btn">
-            {displayName}
-          </button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-    </div>
+            <TextField
+              name="password"
+              type="password"
+              placeholder="password"
+              className="input"
+            />
+          </div>
+          <div>
+            <Button width="100%" type="submit" className="log-btn button">
+              {displayName}
+            </Button>
+            <Button href={`/${linkName}`}>{antiDisplayName}?</Button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      </Grid>
+    </Grid>
   )
 }
 

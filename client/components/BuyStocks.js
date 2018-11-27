@@ -4,6 +4,9 @@ import axios from "axios"
 import { updateUser } from "../store/actions/users"
 import { updateStock, createPortfolioItem } from "../store/reducers/portfolio"
 import { createTransaction } from "../store/reducers/transaction"
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
+import FormLabel from "@material-ui/core/FormLabel"
 
 class BuyStocks extends Component {
   constructor(props) {
@@ -20,8 +23,10 @@ class BuyStocks extends Component {
     this.handleBuy = this.handleBuy.bind(this)
   }
   async handleStockChange(event) {
+    const originalText = event.target.value
+    const uppercaseText = originalText.toUpperCase()
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: uppercaseText
     })
   }
   handleQuantChange(event) {
@@ -99,7 +104,7 @@ class BuyStocks extends Component {
       this.setState({
         currentError: "Purchased!",
         stockBeingTypedIn: "",
-        quantityBeingTypedIn: 0
+        quantityBeingTypedIn: ""
       })
     }
   }
@@ -109,11 +114,13 @@ class BuyStocks extends Component {
     return (
       <form onSubmit={this.handleBuy} autoComplete="off">
         <div>
-          <label>Balance:</label> {newCash.toFixed(2)}
+          <FormLabel className="center">
+            Balance: ${newCash.toFixed(2)}
+          </FormLabel>
         </div>
         <div>
-          <label>Stock:</label>
-          <input
+          <TextField
+            placeholder="Stock"
             type="text"
             name="stockBeingTypedIn"
             value={this.state.stockBeingTypedIn}
@@ -124,8 +131,9 @@ class BuyStocks extends Component {
           />
         </div>
         <div>
-          <label>Quantity:</label>
-          <input
+          {/* <FormLabel>Quantity:</FormLabel> */}
+          <TextField
+            placeholder="Quantity"
             type="number"
             name="quantityBeingTypedIn"
             value={this.state.quantityBeingTypedIn}
@@ -135,7 +143,7 @@ class BuyStocks extends Component {
           />
         </div>
         <div>
-          <button type="submit">Buy</button>
+          <Button type="submit">Buy</Button>
         </div>
         {this.state.currentError}
       </form>

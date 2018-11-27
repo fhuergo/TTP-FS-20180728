@@ -4,6 +4,7 @@ import "babel-polyfill" // might help fix /get not working
 const GET_PORTFOLIO = "GET_PORTFOLIO"
 const GET_UPDATED_PORTFOLIO = "GET_UPDATED_PORTFOLIO"
 //const CREATE_PORTFOLIO_ITEM = "CREATE_PORTFOLIO_ITEM"
+const CLEAR_PORTFOLIO = "CLEAR_PORTFOLIO"
 
 const getLatestPrice = async data => {
   if (!Array.isArray(data)) {
@@ -66,6 +67,11 @@ const addPortfolioItem = portfolioItem => ({
   portfolioItem
 })
 
+const clearPortfolioItems = emptyArr => ({
+  type: CLEAR_PORTFOLIO,
+  emptyArr
+})
+
 export const updateStock = (
   idAndNumShares,
   stockName,
@@ -113,6 +119,11 @@ export const getPortfolio = userId => async dispatch => {
   }
 }
 
+export const removePortfolio = () => dispatch => {
+  const empty = []
+  dispatch(clearPortfolioItems(empty))
+}
+
 export default (state = [], action) => {
   switch (action.type) {
     case GET_PORTFOLIO:
@@ -121,6 +132,8 @@ export default (state = [], action) => {
       return action.updatedPortfolio
     // case CREATE_PORTFOLIO_ITEM:
     //   return state.concat(action.portfolioItem)
+    case CLEAR_PORTFOLIO:
+      return action.emptyArr
     default:
       return state
   }
