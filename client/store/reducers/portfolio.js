@@ -120,6 +120,7 @@ export const getPortfolio = userId => async dispatch => {
 }
 
 export const removePortfolio = () => dispatch => {
+  console.log("made it to thunk")
   const empty = []
   dispatch(clearPortfolioItems(empty))
 }
@@ -133,7 +134,8 @@ export default (state = [], action) => {
     // case CREATE_PORTFOLIO_ITEM:
     //   return state.concat(action.portfolioItem)
     case CLEAR_PORTFOLIO:
-      return action.emptyArr
+      console.log("made it to reducer")
+      return []
     default:
       return state
   }

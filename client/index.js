@@ -7,7 +7,6 @@ import store from "./store"
 import createHistory from "history/createBrowserHistory"
 const history = createHistory()
 
-//ReactDOM.render(<div>Hello world</div>, document.getElementById("app"))
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

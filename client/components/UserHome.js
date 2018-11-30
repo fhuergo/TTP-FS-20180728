@@ -1,12 +1,9 @@
 import React, { Component } from "react"
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import Transactions from "./Transactions"
 import PortfolioAndBuy from "./PortfolioAndBuy"
 import NavBar from "./NavBar"
-import { getPortfolio } from "../store/reducers/portfolio"
 import { connect } from "react-redux"
-
-import { retrieveTransactions } from "../store/reducers/transaction"
 
 class UserHome extends Component {
   constructor(props) {
@@ -43,23 +40,32 @@ class UserHome extends Component {
     this.props.history.push("/login")
   }
   render() {
-    const { name, portfolio, transactions } = this.props
+    const { name, transactions, userId } = this.props
+    console.log("userId", userId)
     const MyPortfolioAndBuyStocksPages = props => {
       return (
         <PortfolioAndBuy
-          portfolio={portfolio}
           alreadyHasTheStock={this.alreadyHasTheStock}
+          userId={userId}
+          clearInterval={this.clearInterval}
+          stopInterval={this.state.stopInterval}
           {...props}
         />
       )
     }
     const MyTransactionsPage = props => {
-      return <Transactions transactions={transactions} {...props} />
+      return (
+        <Transactions transactions={transactions} userId={userId} {...props} />
+      )
     }
     return (
       <Router>
         <div style={{ width: 1000, margin: "0 auto" }}>
-          <NavBar name={name} goHome={this.goHome} />
+          <NavBar
+            name={name}
+            goHome={this.goHome}
+            endInterval={this.endInterval}
+          />
           <hr />
           <Route exact path="/home" render={MyPortfolioAndBuyStocksPages} />
           <Route
@@ -76,17 +82,7 @@ class UserHome extends Component {
 
 const mapStateToProps = state => ({
   name: state.user.name,
-  userId: state.user.id,
-  portfolio: state.portfolio,
-  transactions: state.transactions
+  userId: state.user.id
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchPortfolio: userId => dispatch(getPortfolio(userId)),
-  fetchTransactions: userId => dispatch(retrieveTransactions(userId))
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserHome)
+export default connect(mapStateToProps)(UserHome)

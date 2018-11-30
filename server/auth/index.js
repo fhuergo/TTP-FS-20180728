@@ -35,6 +35,7 @@ router.post("/signup", async (req, res, next) => {
 })
 
 router.post("/logout", (req, res) => {
+  console.log("hitting logout route")
   req.logout()
   req.session.destroy()
   res.redirect("/")

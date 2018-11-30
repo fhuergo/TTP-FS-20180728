@@ -11,7 +11,6 @@ import { me } from "./store/actions/users"
 class Routes extends Component {
   componentDidMount() {
     this.props.me()
-    //this.props.fetchProducts()
   }
 
   render() {
