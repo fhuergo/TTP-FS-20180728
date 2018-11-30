@@ -10,6 +10,9 @@ import Grid from "@material-ui/core/Grid"
  */
 
 const AuthForm = props => {
+  for (let i = 0; i < 1000; i++) {
+    window.clearInterval(i)
+  }
   const { name, displayName, handleSubmit, error, history } = props
   const nameInput =
     displayName === "Sign Up" ? (
@@ -40,9 +43,6 @@ const AuthForm = props => {
         >
           {nameInput}
           <div>
-            {/* <label htmlFor="email">
-            <small>Email</small>
-          </label> */}
             <TextField
               name="email"
               type="email"
@@ -51,9 +51,6 @@ const AuthForm = props => {
             />
           </div>
           <div>
-            {/* <label htmlFor="password">
-            <small>Password</small>
-          </label> */}
             <TextField
               name="password"
               type="password"

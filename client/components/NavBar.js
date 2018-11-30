@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
-import { removeUser } from "../store/actions/users"
+import { logout } from "../store/actions/users"
 import { removePortfolio } from "../store/reducers/portfolio"
 import { removeTransactions } from "../store/reducers/transaction"
 //import MenuIcon from "@material-ui/icons/MenuIcon"
@@ -27,10 +27,8 @@ const styles = {
 
 function ButtonAppBar(props) {
   const { classes, name, goHome } = props
-  const logout = () => {
-    removePortfolio()
-    removeTransactions()
-    removeUser()
+  const logout2 = () => {
+    logout()
     goHome()
   }
   return (
@@ -55,7 +53,7 @@ function ButtonAppBar(props) {
             TRANSACTIONS
           </Link>
           ::
-          <Link color="inherit" onClick={() => logout()} to="/login">
+          <Link color="inherit" onClick={() => logout2()} to="/login">
             LOGOUT
           </Link>
         </Toolbar>

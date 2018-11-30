@@ -21,8 +21,6 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (name, email, password, method) => async dispatch => {
-  removePortfolio()
-  removeTransactions()
   let res
   try {
     res = await axios.post(`/auth/${method}`, { name, email, password }) // originally res = await axios.post(`/auth/login/${method}`, { email, password })
@@ -42,8 +40,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post("/auth/logout")
     dispatch(removeUser())
-    //dispatch(getCart({}))
-    history.push("/login")
+    //history.push("/login") // commenting out due to error
   } catch (err) {
     console.error(err)
   }

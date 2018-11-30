@@ -22,3 +22,17 @@ a {
   justify-content: center;
   /* margin-left: 35px; */
 }
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin: auto;
+}
+
+.box {
+  width: 100%;
+  max-width: 30%;
+  border: 1px solid red;
+  margin: 5px;
+}
