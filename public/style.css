@@ -22,3 +22,16 @@ a {
   justify-content: center;
   /* margin-left: 35px; */
 }
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin: auto;
+}
+.box {
+  width: 100%;
+  max-width: 90%;
+  border: 0px solid;
+  margin: 5px;
+}

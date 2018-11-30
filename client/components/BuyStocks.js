@@ -61,7 +61,7 @@ class BuyStocks extends Component {
     }
     if (quantityBeingTypedIn % 1 !== 0) {
       this.setState({
-        currentError: "You may only buy whole number quantities of shares."
+        currentError: "Whole number quantities only."
       })
       return
     }
@@ -112,39 +112,41 @@ class BuyStocks extends Component {
     const { cash } = this.props
     const newCash = Number(cash)
     return (
-      <form onSubmit={this.handleBuy} autoComplete="off">
-        <div className="title">
-          <FormLabel>Balance: ${newCash.toFixed(2)}</FormLabel>
-        </div>
-        <div>
-          <TextField
-            placeholder="Stock"
-            type="text"
-            name="stockBeingTypedIn"
-            value={this.state.stockBeingTypedIn}
-            onChange={evt => this.handleStockChange(evt)}
-            maxLength="4"
-            style={{ textTransform: "uppercase" }}
-            required
-          />
-        </div>
-        <div>
-          {/* <FormLabel>Quantity:</FormLabel> */}
-          <TextField
-            placeholder="Quantity"
-            type="number"
-            name="quantityBeingTypedIn"
-            value={this.state.quantityBeingTypedIn}
-            onChange={evt => this.handleQuantChange(evt)}
-            min="1"
-            required
-          />
-        </div>
-        <div>
-          <Button type="submit">Buy</Button>
-        </div>
-        {this.state.currentError}
-      </form>
+      <div className="container">
+        <form onSubmit={this.handleBuy} autoComplete="off" className="box">
+          <div className="title">
+            <FormLabel>Balance: ${newCash.toFixed(2)}</FormLabel>
+          </div>
+          <div>
+            <TextField
+              placeholder="Stock"
+              type="text"
+              name="stockBeingTypedIn"
+              value={this.state.stockBeingTypedIn}
+              onChange={evt => this.handleStockChange(evt)}
+              maxLength="4"
+              style={{ textTransform: "uppercase" }}
+              required
+            />
+          </div>
+          <div>
+            {/* <FormLabel>Quantity:</FormLabel> */}
+            <TextField
+              placeholder="Quantity"
+              type="number"
+              name="quantityBeingTypedIn"
+              value={this.state.quantityBeingTypedIn}
+              onChange={evt => this.handleQuantChange(evt)}
+              min="1"
+              required
+            />
+          </div>
+          <div>
+            <Button type="submit">Buy</Button>
+          </div>
+          {this.state.currentError}
+        </form>
+      </div>
     )
   }
 }

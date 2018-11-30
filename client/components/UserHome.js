@@ -11,12 +11,24 @@ import { retrieveTransactions } from "../store/reducers/transaction"
 class UserHome extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      portfolio: "not yet updated"
+    }
     this.alreadyHasTheStock = this.alreadyHasTheStock.bind(this)
     this.goHome = this.goHome.bind(this)
   }
   componentDidMount() {
-    this.props.fetchPortfolio(this.props.userId)
-    this.props.fetchTransactions(this.props.userId)
+    const { userId, fetchPortfolio, fetchTransactions } = this.props
+    const setState = this.setState.bind(this)
+    fetchPortfolio(userId)
+    fetchTransactions(userId)
+    this.interval = setInterval(function() {
+      fetchPortfolio(userId)
+      setState({ portfolio: "updated" })
+    }, 1000)
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
   alreadyHasTheStock(stock, additionalQuantity) {
     for (let i = 0; i < this.props.portfolio.length; i++) {
