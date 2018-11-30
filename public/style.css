@@ -32,7 +32,7 @@ a {
 
 .box {
   width: 100%;
-  max-width: 30%;
-  border: 1px solid red;
+  max-width: 90%;
+  border: 0px solid;
   margin: 5px;
 }

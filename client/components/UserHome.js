@@ -8,13 +8,24 @@ import { connect } from "react-redux"
 class UserHome extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      portfolio: "not yet updated"
+    }
     this.alreadyHasTheStock = this.alreadyHasTheStock.bind(this)
     this.goHome = this.goHome.bind(this)
-    this.state = {
-      portfolio: "to update",
-      userId: 0,
-      stopInterval: false
-    }
+  }
+  componentDidMount() {
+    const { userId, fetchPortfolio, fetchTransactions } = this.props
+    const setState = this.setState.bind(this)
+    fetchPortfolio(userId)
+    fetchTransactions(userId)
+    this.interval = setInterval(function() {
+      fetchPortfolio(userId)
+      setState({ portfolio: "updated" })
+    }, 1000)
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
   alreadyHasTheStock(stock, additionalQuantity) {
     for (let i = 0; i < this.props.portfolio.length; i++) {
